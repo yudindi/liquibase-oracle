@@ -48,8 +48,7 @@ public class UnexpectedMaterializedViewChangeGenerator implements UnexpectedObje
             control.setAlreadyHandledUnexpected(column);
         };
 
-        //TODO: remove a table with the same name from the chain
-        //control.setAlreadyHandledUnexpected(table);
+        control.setAlreadyHandledUnexpected(new Table().setName(view.getName()).setSchema(view.getSchema()));
 
         return new Change[]{change};
 
