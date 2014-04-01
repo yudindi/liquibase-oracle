@@ -60,7 +60,7 @@ public class MaterializedViewSnapshotGenerator extends JdbcSnapshotGenerator {
 
     private String getMaterializedViewDefinition(Database database, Schema schema, final String viewName) throws DatabaseException {
         Executor executor = ExecutorService.getInstance().getExecutor(database);
-        String definition = executor.queryForObject(new GetMaterializedViewDefinitionStatement(schema.getName(), viewName), String.class);
+        String definition = executor.queryForObject(new GetMaterializedViewDefinitionStatement(schema.getCatalogName(), viewName), String.class);
         if (definition == null) {
             return null;
         }

@@ -7,6 +7,8 @@ public class GetMaterializedViewDefinitionStatement extends AbstractSqlStatement
     private String name;
 
     public GetMaterializedViewDefinitionStatement(String schemaName, String name) {
+        this.schemaName = schemaName;
+        this.name = name;
     }
 
     public String getSchemaName() {

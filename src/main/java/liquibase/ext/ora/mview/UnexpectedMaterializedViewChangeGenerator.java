@@ -1,7 +1,6 @@
 package liquibase.ext.ora.mview;
 
 import liquibase.change.Change;
-import liquibase.change.core.DropViewChange;
 import liquibase.database.Database;
 import liquibase.diff.output.DiffOutputControl;
 import liquibase.diff.output.changelog.ChangeGeneratorChain;
@@ -10,13 +9,12 @@ import liquibase.ext.ora.dropmaterializedview.DropMaterializedViewChange;
 import liquibase.structure.DatabaseObject;
 import liquibase.structure.core.Column;
 import liquibase.structure.core.Table;
-import liquibase.structure.core.View;
 
 public class UnexpectedMaterializedViewChangeGenerator implements UnexpectedObjectChangeGenerator {
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
         if (MaterializedView.class.isAssignableFrom(objectType)) {
-            return PRIORITY_DEFAULT;
+            return PRIORITY_DATABASE;
         }
         return PRIORITY_NONE;
     }

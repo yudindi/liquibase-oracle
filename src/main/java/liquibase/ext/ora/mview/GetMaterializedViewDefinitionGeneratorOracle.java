@@ -33,7 +33,7 @@ public class GetMaterializedViewDefinitionGeneratorOracle extends AbstractSqlGen
         CatalogAndSchema schema = database.correctSchema(new CatalogAndSchema(null, statement.getSchemaName()));
 
         return new Sql[]{
-                new UnparsedSql("SELECT QUERY FROM ALL_MVIEWS WHERE OWNER='" + schema.getSchemaName() + "' AND MVIEW_NAME='" + statement.getName().toUpperCase() + "'")
+                new UnparsedSql("SELECT QUERY FROM ALL_MVIEWS WHERE OWNER='" + schema.getCatalogName() + "' AND MVIEW_NAME='" + statement.getName().toUpperCase() + "'")
         };
     }
 }
