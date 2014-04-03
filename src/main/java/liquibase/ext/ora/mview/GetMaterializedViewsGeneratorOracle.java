@@ -16,7 +16,8 @@ public class GetMaterializedViewsGeneratorOracle extends AbstractSqlGenerator<Ge
     }
 
     @Override
-    public ValidationErrors validate(GetMaterializedViewsStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public ValidationErrors validate(GetMaterializedViewsStatement statement, Database database,
+                                     SqlGeneratorChain sqlGeneratorChain) {
         return new ValidationErrors();
     }
 
@@ -26,11 +27,12 @@ public class GetMaterializedViewsGeneratorOracle extends AbstractSqlGenerator<Ge
     }
 
     @Override
-    public Sql[] generateSql(GetMaterializedViewsStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public Sql[] generateSql(GetMaterializedViewsStatement statement, Database database,
+                             SqlGeneratorChain sqlGeneratorChain) {
         // will change null schema to default if needed
-        CatalogAndSchema schema = database.correctSchema(new CatalogAndSchema(null, statement.getSchemaName()));
+        CatalogAndSchema schema = database.correctSchema(new CatalogAndSchema(statement.getCatalogName(), null));
 
-        String sql = "SELECT MVIEW_NAME, OWNER FROM ALL_MVIEWS WHERE OWNER='" + schema.getSchemaName() + "'";
+        String sql = "SELECT MVIEW_NAME, OWNER FROM ALL_MVIEWS WHERE OWNER='" + schema.getCatalogName() + "'";
         if (statement.getName() != null) {
             sql += " AND MVIEW_NAME='" + statement.getName().toUpperCase() + "'";
         }

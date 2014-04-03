@@ -9,14 +9,17 @@ import liquibase.sql.UnparsedSql;
 import liquibase.sqlgenerator.SqlGeneratorChain;
 import liquibase.sqlgenerator.core.AbstractSqlGenerator;
 
-public class GetMaterializedViewDefinitionGeneratorOracle extends AbstractSqlGenerator<GetMaterializedViewDefinitionStatement> {
+public class GetMaterializedViewDefinitionGeneratorOracle
+        extends AbstractSqlGenerator<GetMaterializedViewDefinitionStatement> {
+
     @Override
     public int getPriority() {
         return PRIORITY_DATABASE;
     }
 
     @Override
-    public ValidationErrors validate(GetMaterializedViewDefinitionStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public ValidationErrors validate(GetMaterializedViewDefinitionStatement statement, Database database,
+                                     SqlGeneratorChain sqlGeneratorChain) {
         ValidationErrors validationErrors = new ValidationErrors();
         validationErrors.checkRequiredField("viewName", statement.getName());
         return validationErrors;
@@ -28,12 +31,14 @@ public class GetMaterializedViewDefinitionGeneratorOracle extends AbstractSqlGen
     }
 
     @Override
-    public Sql[] generateSql(GetMaterializedViewDefinitionStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain) {
+    public Sql[] generateSql(GetMaterializedViewDefinitionStatement statement, Database database,
+                             SqlGeneratorChain sqlGeneratorChain) {
         // will change null schema to default if needed
-        CatalogAndSchema schema = database.correctSchema(new CatalogAndSchema(null, statement.getSchemaName()));
+        CatalogAndSchema schema = database.correctSchema(new CatalogAndSchema(statement.getCatalogName(), null));
 
         return new Sql[]{
-                new UnparsedSql("SELECT QUERY FROM ALL_MVIEWS WHERE OWNER='" + schema.getCatalogName() + "' AND MVIEW_NAME='" + statement.getName().toUpperCase() + "'")
+                new UnparsedSql("SELECT QUERY FROM ALL_MVIEWS WHERE OWNER='" + schema.getCatalogName()
+                        + "' AND MVIEW_NAME='" + statement.getName().toUpperCase() + "'")
         };
     }
 }

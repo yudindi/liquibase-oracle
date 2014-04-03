@@ -3,18 +3,20 @@ package liquibase.ext.ora.mview;
 import liquibase.statement.AbstractSqlStatement;
 
 public class GetMaterializedViewsStatement extends AbstractSqlStatement {
-    private String schemaName;
+    private String catalogName;
     private String name;
 
-    public GetMaterializedViewsStatement(String schemaName) {
-        this.schemaName = schemaName;
+    public GetMaterializedViewsStatement(String catalogName) {
+        this.catalogName = catalogName;
     }
 
-    public GetMaterializedViewsStatement(String schemaName, String name) {
+    public GetMaterializedViewsStatement(String catalogName, String name) {
+        this(catalogName);
+        this.name = name;
     }
 
-    public String getSchemaName() {
-        return schemaName;
+    public String getCatalogName() {
+        return catalogName;
     }
 
     public String getName() {

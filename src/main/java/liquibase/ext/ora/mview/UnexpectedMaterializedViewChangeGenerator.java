@@ -33,13 +33,14 @@ public class UnexpectedMaterializedViewChangeGenerator implements UnexpectedObje
     }
 
     @Override
-    public Change[] fixUnexpected(DatabaseObject unexpectedObject, DiffOutputControl control, Database referenceDatabase, Database comparisonDatabase, ChangeGeneratorChain chain) {
+    public Change[] fixUnexpected(DatabaseObject unexpectedObject, DiffOutputControl control,
+                                  Database referenceDatabase, Database comparisonDatabase, ChangeGeneratorChain chain) {
         MaterializedView view = (MaterializedView) unexpectedObject;
 
         DropMaterializedViewChange change = new DropMaterializedViewChange();
         change.setViewName(view.getName());
-        if (control.isIncludeSchema()) {
-            change.setSchemaName(view.getSchema().getName());
+        if (control.isIncludeCatalog()) {
+            change.setSchemaName(view.getSchema().getCatalogName());
         }
 
         for (Column column : view.getColumns()) {
